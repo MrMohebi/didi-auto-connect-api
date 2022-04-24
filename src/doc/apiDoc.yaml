@@ -1,0 +1,42 @@
+swagger: "2.0"
+info:
+  title: didi
+  description: didi aouto cennect.
+  version: 1.0.0
+host: didi.m3m.dev
+basePath: /api
+schemes:
+  - https
+
+paths:
+  /signup.php:
+    post:
+      summary: Adds a new user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+              example:
+                id: mrm
+                name: pass
+      responses:
+        '200':
+          description: token.
+          content:
+            application/json:
+              schema:
+                type: object
+                  properties:
+                    token:
+                      type: string
+                    hasAccess:
+                      type: boolean
+                  example:
+                    token: a5c65213e46dd08bfaba2c75ff4eabaf
+                    hasAccess: true
