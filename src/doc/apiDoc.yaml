@@ -32,11 +32,11 @@ paths:
             application/json:
               schema:
                 type: object
-                  properties:
-                    token:
-                      type: string
-                    hasAccess:
-                      type: boolean
-                  example:
-                    token: a5c65213e46dd08bfaba2c75ff4eabaf
-                    hasAccess: true
+                properties:
+                  token:
+                    type: string
+                  hasAccess:
+                    type: boolean
+                example:
+                  token: a5c65213e46dd08bfaba2c75ff4eabaf
+                  hasAccess: true
