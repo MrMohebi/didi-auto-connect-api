@@ -9,9 +9,9 @@ schemes:
   - https
 
 paths:
-  /signup.php:
+  /login.php:
     post:
-      summary: Adds a new user
+      summary: login or create new user
       requestBody:
         content:
           application/json:
@@ -27,7 +27,7 @@ paths:
                 name: pass
       responses:
         '200':
-          description: token.
+          description: token and hasAccess.
           content:
             application/json:
               schema:
@@ -37,8 +37,13 @@ paths:
                     type: string
                   hasAccess:
                     type: boolean
+                  isLimit:
+                    type: boolean
                 example:
                   token: a5c65213e46dd08bfaba2c75ff4eabaf
                   hasAccess: true
-        '409':
-          description: username is duplicated.
+                  isLimit: false
+        '400':
+          description: wrong input.
+        '401':
+          description: wrong password.
