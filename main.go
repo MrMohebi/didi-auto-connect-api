@@ -6,6 +6,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// nodemon --exec go run main.go --signal SIGTERM
+
 func main() {
 	//configs.Setup()
 	server := gin.Default()
