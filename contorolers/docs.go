@@ -5,6 +5,8 @@ import (
 	"net/http"
 )
 
-func Docs(context *gin.Context) {
-	context.HTML(http.StatusOK, "docs.html", nil)
+func Docs() gin.HandlerFunc {
+	return func(context *gin.Context) {
+		context.HTML(http.StatusOK, "docs.html", nil)
+	}
 }

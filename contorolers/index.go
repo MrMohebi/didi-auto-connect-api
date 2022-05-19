@@ -5,6 +5,8 @@ import (
 	"net/http"
 )
 
-func Index(context *gin.Context) {
-	context.HTML(http.StatusOK, "index.html", nil)
+func Index() gin.HandlerFunc {
+	return func(context *gin.Context) {
+		context.HTML(http.StatusOK, "index.html", nil)
+	}
 }
