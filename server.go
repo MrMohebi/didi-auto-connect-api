@@ -12,6 +12,7 @@ func main() {
 
 	err := server.Run(":8005")
 	if err != nil {
+		println("Err in starting server")
 		return
 	}
 }
