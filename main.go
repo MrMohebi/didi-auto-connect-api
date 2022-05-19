@@ -1,18 +1,19 @@
 package main
 
 import (
+	"github.com/MrMohebi/didi-auto-connect-api.git/common"
+	"github.com/MrMohebi/didi-auto-connect-api.git/configs"
 	"github.com/MrMohebi/didi-auto-connect-api.git/router"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
+	configs.Setup()
 	server := gin.Default()
 
 	router.Routs(server)
 
 	err := server.Run(":8005")
-	if err != nil {
-		println("Err in starting server")
-		return
-	}
+
+	common.IsErr(err, "Err in starting server")
 }

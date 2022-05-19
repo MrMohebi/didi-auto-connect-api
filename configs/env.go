@@ -1,15 +1,16 @@
 package configs
 
 import (
+	"github.com/MrMohebi/didi-auto-connect-api.git/common"
 	"github.com/joho/godotenv"
-	"log"
 	"os"
 )
 
-func EnvMongoURI() string {
+func EnvSetup() {
 	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
+	common.IsErr(err, "Error loading .env file")
+}
+
+func EnvMongoURI() string {
 	return os.Getenv("MONGO_FINAL_URI")
 }
