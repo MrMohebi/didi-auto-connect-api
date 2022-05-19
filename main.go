@@ -2,13 +2,12 @@ package main
 
 import (
 	"github.com/MrMohebi/didi-auto-connect-api.git/common"
-	"github.com/MrMohebi/didi-auto-connect-api.git/configs"
 	"github.com/MrMohebi/didi-auto-connect-api.git/router"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	configs.Setup()
+	//configs.Setup()
 	server := gin.Default()
 
 	router.Routs(server)
