@@ -14,3 +14,7 @@ func EnvSetup() {
 func EnvMongoURI() string {
 	return os.Getenv("MONGO_FINAL_URI")
 }
+
+func EvnMongoDB() string {
+	return os.Getenv("MONGO_DB")
+}
