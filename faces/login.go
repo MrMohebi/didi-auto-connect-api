@@ -7,7 +7,7 @@ type LoginRes struct {
 }
 
 type LoginReq struct {
-	Username   string `json:"username"`
-	Password   string `json:"password"`
-	DeviceHash string `json:"deviceHash"`
+	Username   string `json:"username" form:"username" validate:"required"`
+	Password   string `json:"password" form:"password" validate:"required"`
+	DeviceHash string `json:"deviceHash" form:"deviceHash" validate:"required"`
 }
