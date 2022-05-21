@@ -1,9 +1,7 @@
 package models
 
 import (
-	"github.com/MrMohebi/didi-auto-connect-api.git/configs"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type User struct {
@@ -14,4 +12,4 @@ type User struct {
 	CreatedAt int32              `json:"createdAt" validate:"required"`
 }
 
-var UserCollection *mongo.Collection = configs.GetCollection(configs.DB, "users")
+//var UsersCollection *mongo.Collection = configs.GetCollection(configs.DB, "users")

@@ -1,30 +1,41 @@
 package contorolers
 
 import (
+	"github.com/MrMohebi/didi-auto-connect-api.git/common"
+	"github.com/MrMohebi/didi-auto-connect-api.git/faces"
+	"github.com/MrMohebi/didi-auto-connect-api.git/models"
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
-
-//var validate = validator.New()
 
 func Login() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		println(c.PostFormMap("username"))
-		//var reqBody faces.LoginReq
-		//
-		//err := c.BindJSON(&reqBody)
+		//ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		//defer cancel()
+
+		var reqBody faces.LoginReq
+		common.ValidBindForm(c, &reqBody)
+
+		var user models.User
+
+		isLimit := false
+		token := common.RandStr(16)
+
+		//err := models.UsersCollection.FindOne(ctx, bson.M{"$regex": reqBody.Username, "$options": "i"}).Decode(&user)
 		//common.IsErr(err)
 
-		//ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-		//defer cancel()
+		c.JSON(http.StatusOK, gin.H{
+			"asdasd":  isLimit,
+			"aaaaa":   token,
+			"usename": user.Username,
+		})
 
-		//ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-		//var user models.User
-		//defer cancel()
-		//
-		////validate the request body
-		//if err := c.BindJSON(&user); err != nil {
-		//	c.JSON(http.StatusBadRequest, faces.LoginRes{Status: http.StatusBadRequest, Message: "error", Data: map[string]interface{}{"data": err.Error()}})
-		//	return
-		//}
 	}
+}
+
+func singUp() {
+
+}
+
+func login() {
 }
