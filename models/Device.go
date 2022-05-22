@@ -15,4 +15,4 @@ type Device struct {
 	CreatedAt int32              `json:"createdAt" validate:"required"`
 }
 
-var DevicesCollection *mongo.Collection = configs.GetCollection(configs.DB, "devices")
+var DevicesCollection *mongo.Collection = configs.GetCollection(configs.GetDBClint(), "devices")

@@ -6,9 +6,16 @@ import (
 	"os"
 )
 
+var IsInitOnce = false
+
 func EnvSetup() {
-	err := godotenv.Load()
-	common.IsErr(err, "Error loading .env file")
+	if !IsInitOnce {
+		err := godotenv.Load()
+		common.IsErr(err, "Error loading .env file")
+		IsInitOnce = true
+	} else {
+		println("initialized envs once")
+	}
 }
 
 func EnvMongoURI() string {

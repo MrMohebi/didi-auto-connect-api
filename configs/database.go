@@ -9,7 +9,19 @@ import (
 	"time"
 )
 
+// DB Client instance
+var DB *mongo.Client
+
+func GetDBClint() *mongo.Client {
+	if DB != nil {
+		return DB
+	}
+	DB = ConnectDB()
+	return DB
+}
+
 func ConnectDB() *mongo.Client {
+	EnvSetup()
 	client, err := mongo.NewClient(options.Client().ApplyURI(EnvMongoURI()))
 	common.IsErr(err)
 
@@ -22,11 +34,9 @@ func ConnectDB() *mongo.Client {
 	common.IsErr(err)
 
 	fmt.Println("Connected to MongoDB")
+	DB = client
 	return client
 }
-
-// DB Client instance
-var DB *mongo.Client = ConnectDB()
 
 // GetCollection getting database collections
 func GetCollection(client *mongo.Client, collectionName string) *mongo.Collection {
