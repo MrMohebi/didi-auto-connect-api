@@ -10,6 +10,7 @@ type User struct {
 	Id        primitive.ObjectID `json:"id"`
 	Username  string             `json:"username" validate:"required"`
 	Password  string             `json:"password" validate:"required"`
+	Token     string             `json:"token" validate:"required"`
 	LastLogin int32              `json:"lastLogin"`
 	CreatedAt int32              `json:"createdAt" validate:"required"`
 }

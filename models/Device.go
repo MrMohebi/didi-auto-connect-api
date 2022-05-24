@@ -11,8 +11,8 @@ type Device struct {
 	UserID    primitive.ObjectID `json:"userID" validate:"required"`
 	Hash      string             `json:"hash" validate:"required"`
 	IsActive  bool               `json:"isActive" validate:"required"`
-	LastLogin int32              `json:"lastLogin" `
-	CreatedAt int32              `json:"createdAt" validate:"required"`
+	LastLogin int64              `json:"lastLogin" `
+	CreatedAt int64              `json:"createdAt" validate:"required"`
 }
 
 var DevicesCollection *mongo.Collection = configs.GetCollection(configs.GetDBClint(), "devices")
