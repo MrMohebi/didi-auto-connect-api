@@ -70,10 +70,11 @@ func login(reqBody *faces.LoginReq, user *models.User, token *string, isLimit *b
 
 	var device models.Device
 	isDeviceRegistered := true
-	deviceNotfound := models.DevicesCollection.FindOne(ctx, bson.M{"hash": reqBody.DeviceHash}).Decode(&device)
+	deviceNotfound := models.DevicesCollection.FindOne(ctx, bson.M{"hash": reqBody.DeviceHash, "userID": user.Id}).Decode(&device)
 	if deviceNotfound != nil {
 		isDeviceRegistered = false
 	}
+
 	//create new device
 	if !isDeviceRegistered {
 		resultDevice, err := models.DevicesCollection.InsertOne(
@@ -89,17 +90,20 @@ func login(reqBody *faces.LoginReq, user *models.User, token *string, isLimit *b
 		common.IsErr(err)
 		_ = models.DevicesCollection.FindOne(ctx, bson.M{"_id": resultDevice.InsertedID}).Decode(&device)
 	}
-
+	println(device.Hash)
+	println(device.IsActive)
 	var activeDevice models.Device
 	// check if it has limitation
-	if device.IsActive {
+	if !device.IsActive {
 		var limitationTime int64 = 5 * 60 * 60
-		if err := models.DevicesCollection.FindOne(ctx, bson.M{"userID": user.Id, "isActive": true}).Decode(&activeDevice); err != nil {
+		if err := models.DevicesCollection.FindOne(ctx, bson.M{"userID": user.Id, "isActive": true}).Decode(&activeDevice); err == nil {
+			println("active found")
 			if activeDevice.LastLogin > (now.Unix() - limitationTime) {
 				*isLimit = true
 			}
 		}
-	} else {
+
+		println(activeDevice.Hash)
 		_, _ = models.DevicesCollection.UpdateOne(
 			ctx,
 			bson.M{"userID": user.Id, "isActive": true},
@@ -109,7 +113,7 @@ func login(reqBody *faces.LoginReq, user *models.User, token *string, isLimit *b
 		)
 		_, _ = models.DevicesCollection.UpdateOne(
 			ctx,
-			bson.M{"userID": user.Id, "isActive": false},
+			bson.M{"userID": user.Id, "hash": device.Hash},
 			bson.D{{"$set", bson.D{
 				{"isActive", true},
 				{"lastLogin", now.Unix()},
