@@ -7,7 +7,7 @@ import (
 )
 
 type Device struct {
-	Id        primitive.ObjectID `json:"id"`
+	Id        primitive.ObjectID `json:"id" bson:"_id"`
 	UserID    primitive.ObjectID `json:"userID" validate:"required"`
 	Hash      string             `json:"hash" validate:"required"`
 	IsActive  bool               `json:"isActive" validate:"required"`
