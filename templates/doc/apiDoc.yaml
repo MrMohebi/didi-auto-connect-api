@@ -1,7 +1,7 @@
 swagger: "2.0"
 info:
   title: didi
-  description: didi aouto cennect.
+  description: didi auto connect.
   version: 1.0.0
 host: didi.m3m.dev
 basePath: /api
@@ -9,7 +9,7 @@ schemes:
   - https
 
 paths:
-  /login.php:
+  /login:
     post:
       summary: login or create new user
       requestBody:
@@ -22,12 +22,15 @@ paths:
                   type: string
                 password:
                   type: string
+                deviceHash:
+                  type: string
               example:
-                id: mrm
-                name: pass
+                username: mrm
+                password: pass
+                deviceHash: DEVICE_UNIQUE_HASH
       responses:
         '200':
-          description: token and hasAccess.
+          description: token and other data.
           content:
             application/json:
               schema:
@@ -35,14 +38,17 @@ paths:
                 properties:
                   token:
                     type: string
-                  hasAccess:
-                    type: boolean
+                  message:
+                    type: string
+                  link:
+                    type: string
                   isLimit:
                     type: boolean
                 example:
                   token: a5c65213e46dd08bfaba2c75ff4eabaf
-                  hasAccess: true
-                  isLimit: false
+                  isLimit: true
+                  link: "https://link-to-payment-page.cpm"
+                  message: "مدت اعتبار حساب شما تمام شده است. لطفا اکانت خود را تمدید کنید"
         '400':
           description: wrong input.
         '401':

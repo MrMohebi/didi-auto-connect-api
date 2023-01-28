@@ -1,9 +1,10 @@
 package faces
 
 type LoginRes struct {
-	Token     string `json:"token"`
-	HasAccess bool   `json:"hasAccess"`
-	IsLimit   bool   `json:"isLimit"`
+	IsLimit bool   `json:"isLimit"`
+	Token   string `json:"token"`
+	Message string `json:"message"`
+	Link    string `json:"link"`
 }
 
 type LoginReq struct {

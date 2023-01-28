@@ -16,6 +16,6 @@ func main() {
 
 	router.Routs(server)
 
-	err := server.Run("localhost:4010")
+	err := server.Run("0.0.0.0:4010")
 	common.IsErr(err, "Err in starting server")
 }

@@ -6,12 +6,14 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-type Device struct {
+type DidiAccount struct {
 	Id        primitive.ObjectID `json:"id" bson:"_id"`
 	UserID    primitive.ObjectID `json:"userID" validate:"required"`
-	Hash      string             `json:"hash" validate:"required"`
+	Username  string             `json:"username" validate:"required"`
+	Password  string             `json:"password" validate:"required"`
+	IsDefault bool               `json:"isDefault" `
 	LastLogin int64              `json:"lastLogin" `
 	CreatedAt int64              `json:"createdAt" validate:"required"`
 }
 
-var DevicesCollection *mongo.Collection = configs.GetCollection(configs.GetDBClint(), "devices")
+var DidiAccountsCollection *mongo.Collection = configs.GetCollection(configs.GetDBClint(), "didiAccounts")
