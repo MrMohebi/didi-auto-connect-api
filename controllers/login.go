@@ -23,7 +23,7 @@ func Login() gin.HandlerFunc {
 
 		var user models.User
 
-		isLimit := false
+		hasAccess := true
 		message := ""
 
 		isJoined := true
@@ -37,21 +37,21 @@ func Login() gin.HandlerFunc {
 			_ = models.UsersCollection.FindOne(ctx, bson.M{"username": bson.M{"$regex": primitive.Regex{Pattern: fmt.Sprintf("^%s$", reqBody.Username), Options: "i"}}}).Decode(&user)
 		}
 
-		if isJoined && !login(&reqBody, &user, &isLimit, &message) {
+		if isJoined && !login(&reqBody, &user, &hasAccess, &message) {
 			c.JSON(http.StatusUnauthorized, 401)
 			return
 		}
 
-		c.JSON(http.StatusOK, gin.H{
-			"token":   user.Token,
-			"isLimit": isLimit,
-			"message": message,
-			"link":    "",
+		c.JSON(http.StatusOK, faces.LoginRes{
+			Token:     user.Token,
+			HasAccess: hasAccess,
+			Message:   message,
+			Link:      "",
 		})
 	}
 }
 
-func login(reqBody *faces.LoginReq, user *models.User, isLimit *bool, message *string) bool {
+func login(reqBody *faces.LoginReq, user *models.User, hasAccess *bool, message *string) bool {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
@@ -92,7 +92,7 @@ func login(reqBody *faces.LoginReq, user *models.User, isLimit *bool, message *s
 	}
 
 	if user.ActiveTill < now.Unix() {
-		*isLimit = true
+		*hasAccess = false
 		*message = "مدت اعتبار حساب شما تمام شده است. لطفا اکانت خود را تمدید کنید"
 		return true
 	}
@@ -100,7 +100,7 @@ func login(reqBody *faces.LoginReq, user *models.User, isLimit *bool, message *s
 	devicesCursor, _ := models.DevicesCollection.Find(ctx, bson.M{"userID": user.Id})
 
 	if devicesCursor.RemainingBatchLength() > int(user.DeviceLimitation) {
-		*isLimit = true
+		*hasAccess = false
 		*message = "شما از حداکثر تعداد ممکن دستگاه متصل استفاده کرده اید. برای استفاده مجدد 48 ساعت صبر کنید تا دستگاه های قبلی به صورت خودکار از سیستم حذف شوند"
 	}
 

@@ -42,13 +42,41 @@ paths:
                     type: string
                   link:
                     type: string
-                  isLimit:
+                  hasAccess:
                     type: boolean
                 example:
                   token: a5c65213e46dd08bfaba2c75ff4eabaf
-                  isLimit: true
+                  isLimit: false
                   link: "https://link-to-payment-page.cpm"
                   message: "مدت اعتبار حساب شما تمام شده است. لطفا اکانت خود را تمدید کنید"
+        '400':
+          description: wrong input.
+        '401':
+          description: wrong password.
+
+  /hasAccess:
+    get:
+      summary: on each connect
+      parameters:
+        - in: query
+          name: deviceHash
+          schema:
+            type: string
+          description: DEVICE_UNIQUE_HASH
+      responses:
+        '200':
+          description: user.
+          content:
+            type: object
+            properties:
+              hashAccess:
+                type: boolean
+              message:
+                type: string
+            example:
+              hashAccess: false
+              message: "دستگاهی با این ایدی یافت نشد!"
+
         '400':
           description: wrong input.
         '401':
