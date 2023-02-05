@@ -14,6 +14,7 @@ type DidiAccount struct {
 	IsDefault bool               `json:"isDefault" `
 	LastLogin int64              `json:"lastLogin" `
 	CreatedAt int64              `json:"createdAt" validate:"required"`
+	UpdatedAt int64              `json:"updatedAt"`
 }
 
 var DidiAccountsCollection *mongo.Collection = configs.GetCollection(configs.GetDBClint(), "didiAccounts")

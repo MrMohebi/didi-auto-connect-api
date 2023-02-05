@@ -32,7 +32,7 @@ paths:
         '200':
           description: token and other data.
           content:
-            application/x-www-form-urlencoded:
+            application/json:
               schema:
                 type: object
                 properties:
@@ -96,6 +96,31 @@ paths:
           description: user with this username is registered
         '400':
           description: wrong input.
+
+  /didiAccount/get:
+    get:
+      summary: get didi account
+      responses:
+        '200':
+          description: didi account.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                  password:
+                    type: string
+                  updatedAt:
+                    type: integer
+                  createdAt:
+                    type: integer
+                example:
+                  username: 09991231212
+                  password: pass
+                  createdAt: 1675589653
+                  updatedAt: 0
 
   /didiAccount/create:
     post:

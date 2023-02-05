@@ -12,6 +12,44 @@ import (
 	"time"
 )
 
+func DidiAccountGet() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		defer cancel()
+
+		user, isOkay := models.UserWithToken(c)
+		if !isOkay {
+			return
+		}
+
+		var didis []models.DidiAccount
+		cur, err := models.DidiAccountsCollection.Find(ctx, bson.M{"userID": user.Id})
+		defer cur.Close(ctx)
+		if err != nil {
+			c.JSON(http.StatusOK, nil)
+		}
+
+		for cur.Next(ctx) {
+			var elem models.DidiAccount
+			common.IsErr(cur.Decode(&elem))
+			didis = append(didis, elem)
+		}
+
+		var result []faces.DidiAccountGetRes
+		for _, didi := range didis {
+			result = append(result, faces.DidiAccountGetRes{
+				Username:  didi.Username,
+				Password:  didi.Password,
+				UpdatedAt: didi.UpdatedAt,
+				CreatedAt: didi.CreatedAt,
+			})
+		}
+
+		c.JSON(http.StatusOK, result)
+
+	}
+}
+
 func DidiAccountCreate() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)

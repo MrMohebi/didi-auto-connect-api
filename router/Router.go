@@ -23,6 +23,7 @@ func Routs(r *gin.Engine) {
 			didiAccount.POST("/create", controllers.DidiAccountCreate())
 			didiAccount.POST("/modify/:id", controllers.DidiAccountModify())
 			didiAccount.GET("/delete", controllers.DidiAccountDelete())
+			didiAccount.GET("/get", controllers.DidiAccountGet())
 		}
 
 	}
