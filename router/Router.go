@@ -16,5 +16,6 @@ func Routs(r *gin.Engine) {
 	{
 		api.POST("/login", controllers.Login())
 		api.GET("/hasAccess", controllers.HasAccess())
+		api.GET("/isRegistered", controllers.IsRegistered())
 	}
 }

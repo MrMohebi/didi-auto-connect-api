@@ -56,7 +56,7 @@ paths:
 
   /hasAccess:
     get:
-      summary: on each connect
+      summary: hasAccess
       parameters:
         - in: query
           name: deviceHash
@@ -81,3 +81,18 @@ paths:
           description: wrong input.
         '401':
           description: wrong password.
+
+  /isRegistered:
+    get:
+      summary: check if a username is registered
+      parameters:
+        - in: query
+          name: username
+          schema:
+            type: string
+          description: username of user
+      responses:
+        '200':
+          description: user with this username is registered
+        '400':
+          description: wrong input.
