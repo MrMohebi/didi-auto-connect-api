@@ -27,7 +27,6 @@ func HasAccess() gin.HandlerFunc {
 		var hasAccess = true
 
 		user, isOkay := models.UserWithToken(c)
-		println(user.Username)
 		if !isOkay {
 			return
 		}

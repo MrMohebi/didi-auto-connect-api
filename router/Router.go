@@ -17,5 +17,13 @@ func Routs(r *gin.Engine) {
 		api.POST("/login", controllers.Login())
 		api.GET("/hasAccess", controllers.HasAccess())
 		api.GET("/isRegistered", controllers.IsRegistered())
+
+		didiAccount := api.Group("/didiAccount")
+		{
+			didiAccount.POST("/create", controllers.DidiAccountCreate())
+			didiAccount.POST("/modify/:id", controllers.DidiAccountModify())
+			didiAccount.GET("/delete", controllers.DidiAccountDelete())
+		}
+
 	}
 }

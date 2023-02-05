@@ -14,7 +14,7 @@ paths:
       summary: login or create new user
       requestBody:
         content:
-          application/json:
+          application/x-www-form-urlencoded:
             schema:
               type: object
               properties:
@@ -32,7 +32,7 @@ paths:
         '200':
           description: token and other data.
           content:
-            application/json:
+            application/x-www-form-urlencoded:
               schema:
                 type: object
                 properties:
@@ -94,5 +94,76 @@ paths:
       responses:
         '200':
           description: user with this username is registered
+        '400':
+          description: wrong input.
+
+  /didiAccount/create:
+    post:
+      summary: create didi account
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+              example:
+                username: 09991231212
+                password: pass
+
+      responses:
+        '200':
+          description: account created.
+        '409':
+          description: account already exist.
+
+  /didiAccount/delete:
+    get:
+      summary: delete didi account
+      parameters:
+        - in: query
+          name: username
+          schema:
+            type: string
+          description: USERNAME
+      responses:
+        '200':
+          description: account created.
+        '404':
+          description: account didnt found.
+
+  /didiAccount/modify/{id}:
+    post:
+      summary: update didi account
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: id of didi account
+
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+              example:
+                username: 09991231212
+                password: pass
+
+      responses:
+        '200':
+          description: account created.
+        '404':
+          description: not found.
         '400':
           description: wrong input.
