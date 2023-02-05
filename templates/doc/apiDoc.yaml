@@ -99,7 +99,7 @@ paths:
 
   /didiAccount/get:
     get:
-      summary: get didi account
+      summary: didi account get
       responses:
         '200':
           description: didi account.
@@ -108,6 +108,8 @@ paths:
               schema:
                 type: object
                 properties:
+                  id:
+                    type: string
                   username:
                     type: string
                   password:
@@ -117,6 +119,7 @@ paths:
                   createdAt:
                     type: integer
                 example:
+                  id: 63df7815c8ce5c405561625e
                   username: 09991231212
                   password: pass
                   createdAt: 1675589653
@@ -124,7 +127,7 @@ paths:
 
   /didiAccount/create:
     post:
-      summary: create didi account
+      summary: didi account create
       requestBody:
         content:
           application/x-www-form-urlencoded:
@@ -145,15 +148,16 @@ paths:
         '409':
           description: account already exist.
 
-  /didiAccount/delete:
-    get:
-      summary: delete didi account
+  /didiAccount/delete/{id}:
+    post:
+      summary: didi account delete
       parameters:
-        - in: query
-          name: username
+        - in: path
+          name: id
           schema:
             type: string
-          description: USERNAME
+          required: true
+          description: id of didi account
       responses:
         '200':
           description: account created.
@@ -162,7 +166,7 @@ paths:
 
   /didiAccount/modify/{id}:
     post:
-      summary: update didi account
+      summary: didi account update
       parameters:
         - in: path
           name: id

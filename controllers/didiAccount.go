@@ -38,6 +38,7 @@ func DidiAccountGet() gin.HandlerFunc {
 		var result []faces.DidiAccountGetRes
 		for _, didi := range didis {
 			result = append(result, faces.DidiAccountGetRes{
+				Id:        didi.Id,
 				Username:  didi.Username,
 				Password:  didi.Password,
 				UpdatedAt: didi.UpdatedAt,
@@ -93,27 +94,27 @@ func DidiAccountDelete() gin.HandlerFunc {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
 
-		username, isOkay := c.GetQuery("username")
+		id, err := primitive.ObjectIDFromHex(c.Param("id"))
+		if err != nil {
+			c.JSON(http.StatusBadRequest, false)
+			return
+		}
 
 		user, isOkay := models.UserWithToken(c)
 		if !isOkay {
 			return
 		}
 
+		filter := bson.M{"_id": id, "userID": user.Id}
+
 		var didi models.DidiAccount
-		err := models.DidiAccountsCollection.FindOne(ctx, bson.M{"username": username, "userID": user.Id}).Decode(&didi)
+		err = models.DidiAccountsCollection.FindOne(ctx, filter).Decode(&didi)
 		if err != nil {
 			c.JSON(http.StatusNotFound, false)
 			return
 		}
 
-		_, err = models.DidiAccountsCollection.DeleteOne(
-			ctx,
-			bson.D{
-				{"userID", user.Id},
-				{"username", username},
-			},
-		)
+		_, err = models.DidiAccountsCollection.DeleteOne(ctx, filter)
 		common.IsErr(err)
 
 		c.JSON(http.StatusOK, true)
@@ -130,7 +131,6 @@ func DidiAccountModify() gin.HandlerFunc {
 		common.ValidBindForm(c, &reqBody)
 
 		id, err := primitive.ObjectIDFromHex(c.Param("id"))
-
 		if err != nil {
 			c.JSON(http.StatusBadRequest, false)
 			return
